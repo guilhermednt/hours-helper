@@ -1,7 +1,7 @@
 <?php
 require_once 'vendor/autoload.php';
 
-$days = \Donato\Hours\Parser::parse('/tmp/x3scr.5392');
+$days = \Donato\Hours\Parser::parse('/home/gdnt/Documents/x3scr.5392');
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -33,7 +33,7 @@ $days = \Donato\Hours\Parser::parse('/tmp/x3scr.5392');
         </style>
     </head>
     <body>
-        <table class="table table-condensed" style="width: 1120px">
+        <table class="table table-condensed" style="width: 1400px">
             <thead>
                 <tr>
                     <th rowspan="2" width="40px">Date</th>
@@ -42,6 +42,7 @@ $days = \Donato\Hours\Parser::parse('/tmp/x3scr.5392');
                     <th colspan="2">Morning</th>
                     <th colspan="2">Afternoon</th>
                     <th colspan="8">Extra Hours</th>
+                    <th colspan="3">Totals</th>
                 </tr>
                 <tr>
                     <th width="80px">In</th>
@@ -57,13 +58,17 @@ $days = \Donato\Hours\Parser::parse('/tmp/x3scr.5392');
                     <th width="80px">Ex 3 Out</th>
                     <th width="80px">Ex 4 In</th>
                     <th width="80px">Ex 4 Out</th>
+
+                    <th width="80px">Valid</th>
+                    <th width="80px">Ignored</th>
+                    <th width="80px">Extra</th>
                 </tr>
             </thead>
             <tbody>
                 <?php
                 /** @var \Donato\Hours\Day $day */
                 foreach ($days as $day) { ?>
-                    <tr class="day">
+                    <tr class="day" data-day="<?= $day->getDate()->format('Y-m-d') ?>">
                         <td><?= $day->getDate()->format('d/m/Y') ?></td>
                         <td><?= $day->getObs1() ?></td>
                         <td><?= $day->getObs2() ?></td>
@@ -75,14 +80,26 @@ $days = \Donato\Hours\Parser::parse('/tmp/x3scr.5392');
                             $out = $shift && $shift->getEnd() ? $shift->getEnd()->format('H:i') : '';
                             ?>
                             <td>
-                                <input type="text" class="hour" value="<?= $in ?>" data-original="<?= $in ?>" pattern="[0-9:]" maxlength="5">
+                                <input type="text" class="hour" value="<?= $in ?>" data-original="<?= $in ?>"
+                                       pattern="[0-9:]" maxlength="5">
                                 <span class="original"><?= $in ?></span>
                             </td>
                             <td>
-                                <input type="text" class="hour" value="<?= $out ?>" data-original="<?= $out ?>" pattern="[0-9:]" maxlength="5">
+                                <input type="text" class="hour" value="<?= $out ?>" data-original="<?= $out ?>"
+                                       pattern="[0-9:]" maxlength="5">
                                 <span class="original"><?= $out ?></span>
                             </td>
                         <?php } ?>
+
+                        <td>
+                            <span class="valid-hours"></span>
+                        </td>
+                        <td>
+                            <span class="ignored-hours"></span>
+                        </td>
+                        <td>
+                            <span class="extra-hours"></span>
+                        </td>
                     </tr>
                 <?php } ?>
             </tbody>
@@ -93,7 +110,17 @@ $days = \Donato\Hours\Parser::parse('/tmp/x3scr.5392');
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"
                 integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS"
                 crossorigin="anonymous"></script>
+        <script src="js/moment-with-locales.js"></script>
         <script>
+            var hoursHelper = {
+                calcValidHours: function (day) {
+                    var elements = {
+                        in1: $()
+                    };
+                    var in1 = moment(day.data('day') + ' ' +)
+                }
+            };
+
             $(document).ready(function () {
                 $('.hour').each(function (index) {
                     if ($(this).val() !== $(this).data('original')) {
@@ -109,6 +136,11 @@ $days = \Donato\Hours\Parser::parse('/tmp/x3scr.5392');
                     } else {
                         $(this).parent().removeClass('changed');
                     }
+                });
+
+                $('.valid-hours').each(function () {
+                    var day = $(this).parents('.day');
+                    console.log(day);
                 });
             });
         </script>
