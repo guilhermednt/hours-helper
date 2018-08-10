@@ -1,0 +1,23 @@
+{
+  "name": "hours-helper",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/guilhermednt/hours-helper.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/guilhermednt/hours-helper/issues"
+  },
+  "homepage": "https://github.com/guilhermednt/hours-helper#readme",
+  "dependencies": {
+    "clipboardy": "^1.2.3",
+    "moment": "^2.22.2"
+  }
+}
